@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="">
+  <link 
+    rel="icon" 
+    href="/">
+  <title>tcp/upd协议注册</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="tcp/upd协议注册">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/11/15/networks/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="https://img.songhn.com/img/Y67gdd.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-11-15">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-11-16">
+      <meta 
+        property="og:article:author" 
+        content="sun">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="networks">
+        
+          <meta 
+            property="og:article:tag" 
+            content="kernel">
+        
+          <meta 
+            property="og:article:tag" 
+            content="kernel 6.0">
+        
+      
+    
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  <link rel="preload" href="/css/main.css" as="style" >
+  
+  <link rel="modulepreload" href="//instant.page/5.1.0">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+  
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <a class="navbar-logo-main" href="/">
+      
+      
+      </a>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+
+
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <aside class="left-column" style="display:inline ;">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="https://img.songhn.com/img/Y67gdd.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">sun</p>
+<p class="author-description"></p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>1</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>0</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/networks/" 
+        title="networks">
+        <div class="tags-list-item">networks</div>
+      </a>
+    
+      <a 
+        href="/tags/kernel/" 
+        title="kernel">
+        <div class="tags-list-item">kernel</div>
+      </a>
+    
+      <a 
+        href="/tags/kernel-6-0/" 
+        title="kernel 6.0">
+        <div class="tags-list-item">kernel 6.0</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <main class="main-column">
+              
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      tcp/upd协议注册
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-11-15T07:56:07.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-11-15</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>449 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/networks/" 
+            class="post-meta-link">
+            networks
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/kernel/" 
+            class="post-meta-link">
+            kernel
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/kernel-6-0/" 
+            class="post-meta-link">
+            kernel 6.0
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h3 id="内核版本-kernel-6-0"><a href="#内核版本-kernel-6-0" class="headerlink" title="内核版本:kernel 6.0"></a>内核版本:kernel 6.0</h3><hr>
+<h3 id="内核牵扯文件"><a href="#内核牵扯文件" class="headerlink" title="内核牵扯文件"></a>内核牵扯文件</h3><pre class="highlight"><span class="line">/net/ipv4/af_inet.c</span><br><span class="line">/net/core/sock.c</span><br><span class="line">/net/socket.c</span><br></pre>
+<h3 id="主代码文件"><a href="#主代码文件" class="headerlink" title="主代码文件"></a>主代码文件</h3><pre class="highlight"><span class="line">代码文件:   /net/ipv4/af_inet.c</span><br><span class="line">函数:      inet_init()</span><br></pre>
+
+
+<hr>
+<h3 id="tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-注册"><a href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-注册" class="headerlink" title="tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册"></a>tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</h3><pre class="mermaid">sequenceDiagram
+    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register():  注册 tcp_prot
+    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
+    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 udp_prot
+    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
+    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 raw_prot
+    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
+    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 ping_prot
+    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中</pre>
+
+<hr>
+<h3 id="PF-INET-协议族注册"><a href="#PF-INET-协议族注册" class="headerlink" title="PF_INET 协议族注册"></a>PF_INET 协议族注册</h3><pre class="mermaid">sequenceDiagram
+    /net/ipv4/af_inet.inet_init()->>/net/socket.sock_register(): 注册 PF_INET 协议族
+    /net/socket.sock_register()->> /net/core/sock: 数据存在到 net_family_lock 列表中</pre>
+<hr>
+<h3 id="icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><a href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol" class="headerlink" title="icmp_protocol&amp;udp_protocol&amp;tcp_protocol"></a>icmp_protocol&amp;udp_protocol&amp;tcp_protocol</h3><pre class="mermaid">sequenceDiagram
+    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 icmp_protocol 
+    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中
+    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 udp_protocol
+    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中 
+    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 tcp_protocol 
+    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中</pre>
+<hr>
+<h3 id="注册-IP-协议的套接字接口"><a href="#注册-IP-协议的套接字接口" class="headerlink" title="注册 IP 协议的套接字接口"></a>注册 IP 协议的套接字接口</h3><pre class="mermaid">sequenceDiagram
+    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_STREAM 并且protocol=IPPROTO_TCP
+    /net/ipv4/af_inet.inet_register_protosw()->>/net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
+    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_DGRAM 并且protocol=IPPROTO_UDP
+    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
+    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_DGRAM 并且protocol=IPPROTO_ICMP
+    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
+    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_RAW 并且protocol=IPPROTO_IP
+    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中</pre>
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+</div>
+            </main>
+            <aside class="right-column" style="display: inline">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-11-15</div>
+        <a href="/2022/11/15/networks/"><div class="recent-posts-item-content">tcp/upd协议注册</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2022
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          
+        </a>
+      </div>
+    </div>
+
+    
+    
+    
+    
+
+
+    
+      <script src='https://unpkg.com/mermaid@9.2.2/dist/mermaid.min.js'></script>
+      <script>
+        if (window.mermaid) {
+          mermaid.initialize({theme: 'forest'});
+        }
+      </script>
+    
+</footer>
+
+
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+    
+    <script src="//instant.page/5.1.0" type="module"
+      integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+    
+    
+  </body>
+</html>
