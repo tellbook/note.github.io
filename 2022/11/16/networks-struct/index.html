@@ -21,17 +21,17 @@
   <link 
     rel="icon" 
     href="/">
-  <title>tcp/upd协议注册</title>
+  <title>networks/struct</title>
   
     
       <meta 
         property="og:title" 
-        content="tcp/upd协议注册">
+        content="networks/struct">
     
     
       <meta 
         property="og:url" 
-        content="http://example.com/2022/11/15/networks/index.html">
+        content="http://example.com/2022/11/16/networks-struct/index.html">
     
     
       <meta 
@@ -45,7 +45,7 @@
         content="article">
       <meta 
         property="og:article:published_time" 
-        content="2022-11-15">
+        content="2022-11-16">
       <meta 
         property="og:article:modified_time" 
         content="2022-11-16">
@@ -65,6 +65,10 @@
           <meta 
             property="og:article:tag" 
             content="kernel 6.0">
+        
+          <meta 
+            property="og:article:tag" 
+            content="struct">
         
       
     
@@ -316,7 +320,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB"><span class="toc-number"></span> <span class="toc-text">数据结构体关联关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inet-family-ops%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inet_family_ops结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inet-family-ops-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inet_family_ops 数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-create-%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">inet_create 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inetsw-array-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inetsw_array 结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6-1"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inetsw-array-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inetsw_array 数据结构</span></a></li></ol>
       </div>
     </article>
   
@@ -381,21 +385,21 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      tcp/upd协议注册
+      networks/struct
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2022-11-15T07:56:07.000Z">
+    <time datetime="2022-11-16T08:20:43.000Z">
       <i 
         class="iconfont icon-calendar" 
         style="margin-right: 2px;">
       </i>
-      <span>2022-11-15</span>
+      <span>2022-11-16</span>
     </time>
     
     
       <span class="dot"></span>
-      <span>449 字</span>
+      <span>53 字</span>
     
   </div>
   
@@ -433,6 +437,15 @@
             kernel 6.0
           </a>
         
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/struct/" 
+            class="post-meta-link">
+            struct
+          </a>
+        
       </div>
     </div>
   
@@ -441,43 +454,88 @@
     id="section" 
     class="post-content">
     <h3 id="内核版本-kernel-6-0"><a href="#内核版本-kernel-6-0" class="headerlink" title="内核版本:kernel 6.0"></a>内核版本:kernel 6.0</h3><hr>
-<h3 id="内核牵扯文件"><a href="#内核牵扯文件" class="headerlink" title="内核牵扯文件"></a>内核牵扯文件</h3><pre class="highlight"><span class="line">/net/ipv4/af_inet.c</span><br><span class="line">/net/core/sock.c</span><br><span class="line">/net/socket.c</span><br></pre>
-<h3 id="主代码文件"><a href="#主代码文件" class="headerlink" title="主代码文件"></a>主代码文件</h3><pre class="highlight"><span class="line">代码文件:   /net/ipv4/af_inet.c</span><br><span class="line">函数:      inet_init()</span><br></pre>
+<h2 id="数据结构体关联关系"><a href="#数据结构体关联关系" class="headerlink" title="数据结构体关联关系"></a>数据结构体关联关系</h2><pre class="mermaid">classDiagram
+class inet_family_ops{
+    family = int PF_INET
+    ····
+}
+
+class SOCK_STREAM__IPPROTO_TCP {
+        .type =       SOCK_STREAM,
+        .protocol =   IPPROTO_TCP,
+        .prot =       &tcp_prot,
+        .ops =        &inet_stream_ops,
+}
 
 
-<hr>
-<h3 id="tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-注册"><a href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-注册" class="headerlink" title="tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册"></a>tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</h3><pre class="mermaid">sequenceDiagram
-    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register():  注册 tcp_prot
-    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
-    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 udp_prot
-    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
-    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 raw_prot
-    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中
-    /net/ipv4/af_inet.inet_init()->>/net/core/sock.proto_register(): 注册 ping_prot
-    /net/core/sock.proto_register()->>/net/core/sock: 数据存在到 proto_list 列表中</pre>
+class tcp_prot {
+    .name			= "TCP",
+    .owner			= THIS_MODULE
+    ····
+}
+
+class inet_stream_ops {
+    .family		   = PF_INET,
+    .owner		   = THIS_MODULE,
+    ···
+}
+
+class inetsw {
+    struct list_head *next, 
+    struct list_head *prev
+}
+
+
+SOCK_STREAM__IPPROTO_TCP <|-- tcp_prot
+SOCK_STREAM__IPPROTO_TCP <|-- inet_stream_ops
+SOCK_STREAM__IPPROTO_TCP --|>inetsw : 通过函数inet_register_protosw 注册存入
+inet_family_ops <|-- inetsw : 通过 protocol 查询</pre>
+
+
+<h2 id="inet-family-ops结构体"><a href="#inet-family-ops结构体" class="headerlink" title="inet_family_ops结构体"></a>inet_family_ops结构体</h2><h3 id="数据类型定义的h文件"><a href="#数据类型定义的h文件" class="headerlink" title="数据类型定义的h文件"></a>数据类型定义的h文件</h3><pre class="highlight"><span class="line">文件路径    /include/linux/net.h</span><br><span class="line">结构体名称  net_proto_family</span><br></pre>
+<h3 id="net-x2F-ipv4-x2F-af-inet-inet-family-ops-数据结构"><a href="#net-x2F-ipv4-x2F-af-inet-inet-family-ops-数据结构" class="headerlink" title="net&#x2F;ipv4&#x2F;af_inet.inet_family_ops 数据结构"></a>net&#x2F;ipv4&#x2F;af_inet.inet_family_ops 数据结构</h3><pre class="mermaid">classDiagram
+class inet_family_ops{
+    family =  PF_INET
+    create = inet_create()
+    owner = THIS_MODULE
+}</pre>
+<h3 id="inet-create-函数"><a href="#inet-create-函数" class="headerlink" title="inet_create 函数"></a>inet_create 函数</h3><pre class="highlight"><span class="line">文件路径    net/ipv4/af_inet.c</span><br><span class="line">函数名称    inet_create</span><br></pre>
 
 <hr>
-<h3 id="PF-INET-协议族注册"><a href="#PF-INET-协议族注册" class="headerlink" title="PF_INET 协议族注册"></a>PF_INET 协议族注册</h3><pre class="mermaid">sequenceDiagram
-    /net/ipv4/af_inet.inet_init()->>/net/socket.sock_register(): 注册 PF_INET 协议族
-    /net/socket.sock_register()->> /net/core/sock: 数据存在到 net_families 列表中</pre>
-<hr>
-<h3 id="icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><a href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol" class="headerlink" title="icmp_protocol&amp;udp_protocol&amp;tcp_protocol"></a>icmp_protocol&amp;udp_protocol&amp;tcp_protocol</h3><pre class="mermaid">sequenceDiagram
-    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 icmp_protocol 
-    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中
-    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 udp_protocol
-    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中 
-    /net/ipv4/af_inet.inet_init()->>/net/ipv4/protocol.inet_add_protocol(): 注册 tcp_protocol 
-    /net/ipv4/protocol.inet_add_protocol() ->> /net/ipv4/protocol.inet_protos: 数据存在到 net_protocol 结构体的inet_protos 数据中</pre>
-<hr>
-<h3 id="注册-IP-协议的套接字接口"><a href="#注册-IP-协议的套接字接口" class="headerlink" title="注册 IP 协议的套接字接口"></a>注册 IP 协议的套接字接口</h3><pre class="mermaid">sequenceDiagram
-    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_STREAM 并且protocol=IPPROTO_TCP
-    /net/ipv4/af_inet.inet_register_protosw()->>/net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
-    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_DGRAM 并且protocol=IPPROTO_UDP
-    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
-    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_DGRAM 并且protocol=IPPROTO_ICMP
-    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中
-    /net/ipv4/af_inet.inet_init()->> /net/ipv4/af_inet.inet_register_protosw(): 注册type=SOCK_RAW 并且protocol=IPPROTO_IP
-    /net/ipv4/af_inet.inet_register_protosw()->>  /net/ipv4/af_inet.inetsw: 存在到 list_head 结构体 inetsw数据中</pre>
+<h2 id="inetsw-array-结构体"><a href="#inetsw-array-结构体" class="headerlink" title="inetsw_array 结构体"></a>inetsw_array 结构体</h2><h3 id="数据类型定义的h文件-1"><a href="#数据类型定义的h文件-1" class="headerlink" title="数据类型定义的h文件"></a>数据类型定义的h文件</h3><pre class="highlight"><span class="line">文件路径    /include/net/protocol.h</span><br><span class="line">结构体名称  inet_protosw</span><br></pre>
+<h3 id="net-x2F-ipv4-x2F-af-inet-inetsw-array-数据结构"><a href="#net-x2F-ipv4-x2F-af-inet-inetsw-array-数据结构" class="headerlink" title="net&#x2F;ipv4&#x2F;af_inet.inetsw_array 数据结构"></a>net&#x2F;ipv4&#x2F;af_inet.inetsw_array 数据结构</h3><pre class="mermaid">classDiagram
+class SOCK_STREAM__IPPROTO_TCP {
+        .type =       SOCK_STREAM,
+        .protocol =   IPPROTO_TCP,
+        .prot =       &tcp_prot,
+        .ops =        &inet_stream_ops,
+        .flags =      INET_PROTOSW_PERMANENT |INET_PROTOSW_ICSK,
+}
+
+class SOCK_DGRAM__IPPROTO_UDP {
+        .type =       SOCK_DGRAM,
+        .protocol =   IPPROTO_UDP,
+        .prot =       &udp_prot,
+        .ops =        &inet_dgram_ops,
+        .flags =      INET_PROTOSW_PERMANENT,
+}</pre>
+
+<pre class="mermaid">classDiagram
+
+class SOCK_DGRAM__IPPROTO_ICMP {
+        .type =       SOCK_DGRAM,
+        .protocol =   IPPROTO_ICMP,
+        .prot =       &ping_prot,
+        .ops =        &inet_sockraw_ops,
+        .flags =      INET_PROTOSW_REUSE,
+}
+class SOCK_RAW__IPPROTO_IP {
+           .type =       SOCK_RAW,
+           .protocol =   IPPROTO_IP,	
+           .prot =       &raw_prot,
+           .ops =        &inet_sockraw_ops,
+           .flags =      INET_PROTOSW_REUSE,
+}</pre>
   </div>
   <div>
     
@@ -485,20 +543,20 @@
 </article>
 <div class="nav">
   
-    <div class="nav-item-prev">
+  
+    <div class="nav-item-next">
       <a 
-        href="/2022/11/16/networks-struct/" 
+        href="/2022/11/15/networks/" 
         class="nav-link">
-        <i class="iconfont icon-left nav-prev-icon"></i>
         <div>
-          <div class="nav-label">上一篇</div>
+          <div class="nav-label">下一篇</div>
           
-            <div class="nav-title">networks/struct </div>
+            <div class="nav-title">tcp/upd协议注册 </div>
           
         </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
       </a>
     </div>
-  
   
 </div>
 
@@ -511,7 +569,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB"><span class="toc-number"></span> <span class="toc-text">数据结构体关联关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inet-family-ops%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inet_family_ops结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inet-family-ops-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inet_family_ops 数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-create-%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">inet_create 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inetsw-array-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inetsw_array 结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6-1"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inetsw-array-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inetsw_array 数据结构</span></a></li></ol>
 </div>
             </main>
             <aside class="right-column" style="display: inline">
@@ -525,7 +583,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%B5%E6%89%AF%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">内核牵扯文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">主代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-prot-amp-udp-prot-amp-raw-prot-amp-ping-prot-%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">tcp_prot&amp;udp_prot&amp;raw_prot&amp;ping_prot 注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PF-INET-%E5%8D%8F%E8%AE%AE%E6%97%8F%E6%B3%A8%E5%86%8C"><span class="toc-number">5.</span> <span class="toc-text">PF_INET 协议族注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-protocol-amp-udp-protocol-amp-tcp-protocol"><span class="toc-number">6.</span> <span class="toc-text">icmp_protocol&amp;udp_protocol&amp;tcp_protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-IP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.</span> <span class="toc-text">注册 IP 协议的套接字接口</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC-kernel-6-0"><span class="toc-number">1.</span> <span class="toc-text">内核版本:kernel 6.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB"><span class="toc-number"></span> <span class="toc-text">数据结构体关联关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inet-family-ops%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inet_family_ops结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inet-family-ops-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inet_family_ops 数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inet-create-%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">inet_create 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inetsw-array-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number"></span> <span class="toc-text">inetsw_array 结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E7%9A%84h%E6%96%87%E4%BB%B6-1"><span class="toc-number">1.</span> <span class="toc-text">数据类型定义的h文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#net-x2F-ipv4-x2F-af-inet-inetsw-array-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">net&#x2F;ipv4&#x2F;af_inet.inetsw_array 数据结构</span></a></li></ol>
     </article>
   
   
